@@ -42,6 +42,7 @@ const whitelist = [
   "https://fantasticfy.onrender.com",
   "https://patrickobrien.onrender.com",
   "https://bcnminimalista.onrender.com",
+  "https://nodecronserver.onrender.com"
 ];
 app.use(
   cors({
@@ -68,9 +69,7 @@ function keepServerActive() {
   nodeCron.schedule("*/10 * * * *", async function logUpdateToServer() {
     console.log("Scheduling a new log update.");
     try {
-      // await axios.post("https://activeserver.onrender.com/log");
-      await axios.post("http://localhost:5000/log");
-      // await axios.post("http://localhost:5000/log");
+      await axios.post("https://nodecronserver.onrender.com/log");
       console.log("Log update sent.");
     } catch (error) {
       console.log("Error during log update.");
@@ -95,8 +94,8 @@ keepServerActive()
 function scheduledAPICall() {
   nodeCron.schedule("0 7 * * * ", function logUpdateToServer() {
     try {
-      // axios.post("https://activeserver.onrender.com/notepad/data");
-      axios.post("http://localhost:5000/notepad/data");
+      axios.post("https://nodecronserver.onrender.com/notepad/data");
+      // axios.post("http://localhost:5000/notepad/data");
     } catch (error) {
       if (error.response) {
         console.log(error.response.data);
@@ -112,25 +111,6 @@ function scheduledAPICall() {
   });
 }
 
-// function scheduledAPICall() {
-//   nodeCron.schedule("*/1 * * * * ", function logUpdateToServer() {
-//     try {
-//       // axios.post("https://activeserver.onrender.com/notepad/data");
-//       axios.post("http://localhost:5000/notepad/data");
-//     } catch (error) {
-//       if (error.response) {
-//         console.log(error.response.data);
-//         console.log(error.response.status);
-//         console.log(error.response.headers);
-//       } else if (error.request) {
-//         console.log(error.request);
-//       } else {
-//         console.log("Error", error.message);
-//       }
-//       console.log("error within scheduledAPICall");
-//     }
-//   });
-// }
 
 scheduledAPICall()
 
