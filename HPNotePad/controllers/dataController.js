@@ -343,8 +343,11 @@ const saveDataToDB = async (objectToSave) => {
   if (objectToSave.forecast) {
     dataToSave.forecast = objectToSave.forecast;
   }
-  if (objectToSave.news) {
+  if (Array.isArray(objectToSave.news)) {
     dataToSave.news = objectToSave.news;
+  } else {
+    // Handle the error, for example by logging it, or returning a message
+    console.error("Invalid news data format");
   }
 
   const newData = new Data(dataToSave);
