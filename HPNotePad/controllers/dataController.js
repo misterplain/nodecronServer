@@ -298,18 +298,56 @@ const fetchData = asyncHandler(async (req, res) => {
   }
 });
 
+// const saveDataToDB = async (objectToSave) => {
+//   let time = new Date();
+//   console.log(objectToSave, "objectToSave from within saveDataToDB");
+
+//   const newData = new Data({
+//     date: time,
+//     horoscope: objectToSave.horoscope,
+//     joke: objectToSave.joke,
+//     moonPhase: objectToSave.moonPhase,
+//     forecast: objectToSave.forecast,
+//     news: objectToSave.news,
+//   });
+
+//   try {
+//     await newData.save();
+//     console.log("saved to db");
+//     return { success: true, message: "Data saved to DB" };
+//   } catch (error) {
+//     console.error("Error in saveDataToDB:", error.message);
+//     return { success: false, message: "Error saving data to DB" };
+//   }
+// };
+
 const saveDataToDB = async (objectToSave) => {
   let time = new Date();
   console.log(objectToSave, "objectToSave from within saveDataToDB");
 
-  const newData = new Data({
-    date: time,
-    horoscope: objectToSave.horoscope,
-    joke: objectToSave.joke,
-    moonPhase: objectToSave.moonPhase,
-    forecast: objectToSave.forecast,
-    news: objectToSave.news,
-  });
+  // Start with a base object with only the date
+  let dataToSave = {
+    date: time
+  };
+
+  // Add properties conditionally if they exist
+  if (objectToSave.horoscope) {
+    dataToSave.horoscope = objectToSave.horoscope;
+  }
+  if (objectToSave.joke) {
+    dataToSave.joke = objectToSave.joke;
+  }
+  if (objectToSave.moonPhase) {
+    dataToSave.moonPhase = objectToSave.moonPhase;
+  }
+  if (objectToSave.forecast) {
+    dataToSave.forecast = objectToSave.forecast;
+  }
+  if (objectToSave.news) {
+    dataToSave.news = objectToSave.news;
+  }
+
+  const newData = new Data(dataToSave);
 
   try {
     await newData.save();
